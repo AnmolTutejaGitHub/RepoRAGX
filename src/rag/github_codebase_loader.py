@@ -6,7 +6,7 @@ EXCLUDE_EXTENSIONS = (
     ".exe", ".dll", ".so",
     ".mp3", ".mp4", ".wav",
     ".pdf", ".doc", ".docx",
-    ".lock"
+    ".lock", ".DS_Store", ".bin", ".ipynb"
 )
 
 EXCLUDE_FOLDERS = (

@@ -16,18 +16,25 @@ class VectorStore:
         try:
             os.makedirs(self.persist_directory,exist_ok=True)
             self.client = chromadb.PersistentClient(path=self.persist_directory)
-            
+
+            try:
+                self.client.delete_collection(name=self.collection_name)
+                print(f"Deleted existing collection: {self.collection_name}")
+            except Exception:
+                pass
+
             self.collection = self.client.get_or_create_collection(
                 name=self.collection_name,
                 metadata={
+                    "hnsw:space": "cosine",
                     "repo": self.collection_name,
                     "type": "github_codebase",
                     "embedding_model": "all-MiniLM-L6-v2",
                 }
             )
 
-            print(f"Vector store initialized. Collection: {self.collection_name}")
-            print(f"Existing documents in collection: {self.collection.count()}")
+            # print(f"Vector store initialized. Collection: {self.collection_name}")
+            # print(f"Existing documents in collection: {self.collection.count()}")
             
         except Exception as e:
             print(f"Error initializing vector store: {e}")
@@ -60,16 +67,16 @@ class VectorStore:
             
             embeddings_list.append(embedding.tolist())
 
-            try:
-                self.collection.add(
-                    ids=ids,
-                    embeddings=embeddings_list,
-                    metadatas=metadatas,
-                    documents=documents_text
-                )
-                print(f"Successfully added {len(documents)} documents to vector store")
-                print(f"Total documents in collection: {self.collection.count()}")
-            
-            except Exception as e:
-                print(f"Error adding documents to vector store: {e}")
-                raise
+        try:
+            self.collection.add(
+                ids=ids,
+                embeddings=embeddings_list,
+                metadatas=metadatas,
+                documents=documents_text
+            )
+            print(f"Successfully added {len(documents)} documents to vector store")
+            print(f"Total documents in collection: {self.collection.count()}")
+        
+        except Exception as e:
+            print(f"Error adding documents to vector store: {e}")
+            raise
