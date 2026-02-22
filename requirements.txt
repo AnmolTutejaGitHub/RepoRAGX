@@ -1,0 +1,4 @@
+langchain==1.2.10
+langchain-community==0.4.1
+langchain-core==1.2.14
+python-dotenv==1.2.1
