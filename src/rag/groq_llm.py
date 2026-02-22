@@ -8,7 +8,7 @@ load_dotenv()
 class GroqLLM:
     def __init__(
         self,
-        model_name="llama-3.3-70b-versatile",
+        model_name,
         temperature=0.1,
         max_tokens=1024
     ):

@@ -1,12 +1,16 @@
 from langchain_community.document_loaders import GithubFileLoader
 
 EXCLUDE_EXTENSIONS = (
-    ".png", ".jpg", ".jpeg", ".gif", ".svg",
-    ".zip", ".tar", ".gz", ".rar",
-    ".exe", ".dll", ".so",
-    ".mp3", ".mp4", ".wav",
-    ".pdf", ".doc", ".docx",
-    ".lock", ".DS_Store", ".bin", ".ipynb"
+    ".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico", ".bmp", ".webp",
+    ".zip", ".tar", ".gz", ".rar", ".7z",
+    ".exe", ".dll", ".so", ".o", ".a", ".dylib",
+    ".mp3", ".mp4", ".wav", ".avi", ".mov",
+    ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx",
+    ".lock", ".DS_Store", ".bin", ".ipynb",
+    ".woff", ".woff2", ".ttf", ".eot", ".otf",
+    ".pyc", ".class", ".jar",
+    ".db", ".sqlite", ".sqlite3",
+    ".min.js", ".min.css",
 )
 
 EXCLUDE_FOLDERS = (
@@ -39,8 +43,14 @@ class GitHubCodeBaseLoader :
 
     def load(self):
         print("Fetching files from github....")
-        docs = self.loader.load()
-        print(f"Loaded all the files from github!!")
+        # docs = self.loader.load() #load all at once
+        docs = []
+        for doc in self.loader.lazy_load(): #lazy -> one by one
+            try:
+                docs.append(doc)
+            except Exception:
+                print(f"Skipping file: {doc.metadata.get('path','unknown')}")
+        print(f"Loaded {len(docs)} files from github!")
         return docs
     
     @staticmethod

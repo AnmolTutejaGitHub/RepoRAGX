@@ -1,7 +1,6 @@
 import chromadb
 import uuid
 import os
-from sklearn.metrics.pairwise import cosine_similarity
 
 class VectorStore:
     def __init__(self,collection_name,persist_directory):
@@ -33,8 +32,8 @@ class VectorStore:
                 }
             )
 
-            # print(f"Vector store initialized. Collection: {self.collection_name}")
-            # print(f"Existing documents in collection: {self.collection.count()}")
+            print(f"Vector store initialized. Collection: {self.collection_name}")
+            print(f"Existing documents in collection: {self.collection.count()}")
             
         except Exception as e:
             print(f"Error initializing vector store: {e}")
