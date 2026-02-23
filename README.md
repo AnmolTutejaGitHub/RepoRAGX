@@ -11,6 +11,10 @@
 # Introduction
 A CLI tool that lets you **chat with any GitHub repository** using Retrieval-Augmented Generation (RAG). Load a codebase, ask questions in natural language, and get context-aware answers.
 
+<p align="center">
+  <img src="assets/repoRAGX_working.png" alt="RepoRAGX Working Demo" width="800"/>
+</p>
+
 ## How It Works
 
 ### Pipeline 1: Data Ingestion
